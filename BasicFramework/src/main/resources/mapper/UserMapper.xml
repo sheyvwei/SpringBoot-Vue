@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.freemadao.mapper.UserMapper">
+    <resultMap id="userMap" type="cn.freemadao.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+    <select id="findByUserName"  resultMap="userMap">
+        select * from sys_user where username = #{userName}
+    </select>
+    <select id="findById" parameterType="Integer" resultMap="userMap">
+        select * from sys_user where id = #{id}
+    </select>
+    <select id="findAll" resultMap="userMap">
+        select * from sys_user
+    </select>
+    <select id="findAllAmount"  resultType="Integer">
+        select count(*) from sys_user
+    </select>
+    <insert id="create" parameterType="User">
+        insert into sys_user(
+            userame,password, create_time,status
+        )
+        values(
+            #{userName}, #{password}, #{createTime}, #{status}
+        )
+    </insert>
+    <delete id="delete"  parameterType="Integer">
+        delete from sys_user where id = #{id}
+    </delete>
+    <update id="update" parameterType="User">
+        update sys_user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{userName}
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                createTime = #{createTime}
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--权限-->
+    <resultMap id="permissionMap" type="cn.freemadao.entity.User">
+        <id column="userId" property="id"/>
+        <result column="username" property="userName"/>
+        <result column="password" property="password"/>
+        <collection  property="roleList"  ofType="cn.freemadao.entity.Role">
+            <result column="roleName" property="roleName"/>
+        </collection>
+        <collection  property="permissionList" ofType="cn.freemadao.entity.Permission">
+            <result column="permissionCode" property="permissionCode" />
+        </collection>
+    </resultMap>
+    <select id="getUserPermission" resultMap="permissionMap">
+            SELECT
+            u.id              userId,
+			u.username	      username,
+            r.id         roleId,
+            r.role_name       roleName,
+            p.id              permissionId,
+            p.menu_code       menuCode,
+            p.permission_code permissionCode
+        FROM sys_user u
+                 LEFT JOIN sys_role r ON r.id = u.role_id
+                 LEFT JOIN sys_role_permission rp ON u.role_id = rp.role_id
+                 LEFT JOIN sys_permission p ON rp.permission_id = p.id AND rp.status = '1'
+        WHERE  u.status = '1' and username = #{userName}
+    </select>
+
+
+</mapper>

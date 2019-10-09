@@ -53,32 +53,30 @@
     </update>
 
     <!--权限-->
-    <resultMap id="permissionMap" type="cn.freemadao.entity.User">
-        <id column="userId" property="id"/>
-        <result column="username" property="userName"/>
-        <result column="password" property="password"/>
-        <collection  property="roleList"  ofType="cn.freemadao.entity.Role">
-            <result column="roleName" property="roleName"/>
+    <resultMap id="permission" type="cn.freemadao.utils.model.One2Many">
+        <id column="userId" property="userId"/>
+
+        <result column="roleId" property="roleId"/>
+        <result column="roleName" property="roleName"/>
+        <collection property="menuList" ofType="String">
+            <id column="menuCode" property="menuCode"/>
         </collection>
-        <collection  property="permissionList" ofType="cn.freemadao.entity.Permission">
-            <result column="permissionCode" property="permissionCode" />
+        <collection property="permissionList" ofType="String">
+            <id column="permissionCode" property="permissionCode"/>
         </collection>
     </resultMap>
-    <select id="getUserPermission" resultMap="permissionMap">
-            SELECT
+    <select id="getPermission" resultMap="permission">
+        	   SELECT
             u.id              userId,
-			u.username	      username,
-            r.id         roleId,
+
+            u.role_id         roleId,
             r.role_name       roleName,
-            p.id              permissionId,
             p.menu_code       menuCode,
             p.permission_code permissionCode
         FROM sys_user u
                  LEFT JOIN sys_role r ON r.id = u.role_id
                  LEFT JOIN sys_role_permission rp ON u.role_id = rp.role_id
-                 LEFT JOIN sys_permission p ON rp.permission_id = p.id AND rp.status = '1'
-        WHERE  u.status = '1' and username = #{userName}
+                 LEFT JOIN sys_permission p ON rp.permission_id = p.id
+        WHERE u.username = #{username}
     </select>
-
-
 </mapper>

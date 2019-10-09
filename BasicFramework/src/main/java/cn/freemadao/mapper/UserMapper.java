@@ -1,10 +1,12 @@
 package cn.freemadao.mapper;
 
 import cn.freemadao.entity.User;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Component
@@ -17,6 +19,7 @@ public interface UserMapper {
     User findByUserName(String userName);   // extends find use username
     List<User> findAll();
     Integer findAllAmount();
-    // 权限
-    Set<String> getUserPermission(String userName);
+
+    ////查询用户的角色 菜单 权限
+    JSONObject getPermission(String userName);
 }

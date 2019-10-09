@@ -9,6 +9,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
+
 public class UserRealm extends AuthorizingRealm {
 
     @Autowired
@@ -27,7 +29,8 @@ public class UserRealm extends AuthorizingRealm {
         //设置角色
 //        authorizationInfo.setRoles(userService.getRoles(userName));
         //设置权限
-        authorizationInfo.setStringPermissions(userService.getUserPermission(userName));
+//        authorizationInfo.setStringPermissions(userService.getUserPermission(userName));
+        authorizationInfo.addStringPermissions((Collection<String>) userService.getPermission(userName));
         return authorizationInfo;
     }
 

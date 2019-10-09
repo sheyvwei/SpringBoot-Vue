@@ -5,10 +5,12 @@ import cn.freemadao.enums.ResultEnums;
 import cn.freemadao.exception.ResultException;
 import cn.freemadao.mapper.UserMapper;
 import cn.freemadao.service.UserService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -61,7 +63,13 @@ public class UserServiceImpl implements UserService {
     }
     //////  权限(菜单和角色)
     @Override
-    public Set<String> getUserPermission(String userName) {
-        return userMapper.getUserPermission(userName);
+    public JSONObject getPermission(String userName) {
+        JSONObject userPermission = getUserPermissionFromDB(userName);
+        return userPermission;
+    }
+    private JSONObject getUserPermissionFromDB(String userName) {
+        JSONObject userPermission = userMapper.getPermission(userName);
+        // 还需判断是否为管理员，如果是，直接给permssionList和menuList赋值
+        return userPermission;
     }
 }

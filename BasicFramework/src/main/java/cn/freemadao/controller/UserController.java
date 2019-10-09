@@ -9,7 +9,9 @@ import cn.freemadao.enums.StatusCode;
 import cn.freemadao.service.UserService;
 import cn.freemadao.utils.CheckValue;
 import com.alibaba.druid.support.spring.stat.annotation.Stat;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,9 +86,9 @@ public class UserController {
         return new Result(StatusCode.PARAMETER_ERROR, ResultEnums.PARAMETER_ERROR);
     }
 
-    @RequestMapping(value = "getUserPermission")
-    public Result getUserPermission(String userName) {
-
-        return new Result(StatusCode.SUCCESS,userService.getUserPermission(userName));
+    /////权限
+    @PostMapping(value = "getPermission")
+    public JSONObject getPermission(String userName) {
+        return userService.getPermission(userName);
     }
 }

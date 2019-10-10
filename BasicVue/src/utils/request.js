@@ -5,7 +5,7 @@ import store from '../store'
 import {getToken} from '@/utils/auth'
 // 创建axios实例
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api 的 base_url
+  baseURL: process.env.BASE_URL, // api 的 base_url
   timeout: 5000 // 请求超时时间
 })
 
@@ -30,7 +30,15 @@ service.interceptors.response.use(
     const res = response.data
     /**
      * code为20000是抛错，可以结合自己业务修改
+     * SUCCESS = 20000; //成功
+        ERROR = 20001; //失败
+        LOGINE_RROR = 20002; //用户名或密码错误
+        ACCESS_ERROR = 20003; //权限不足
+        REPEE_RROR = 20004; //重复操作
+        PARAMETER_ERROR = 20005; //入参错误
      */
+    console.log(res.code)
+    console.log(res)
     if (res.code !== 20000) {
       Message({
         message: res.data,

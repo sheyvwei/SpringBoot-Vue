@@ -45,7 +45,12 @@ export default {
     handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          alert('调用登录api')
+          // alert('调用store登录api')
+          this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.$router.push('/dashboard')
+          }).catch(() => {
+            console.log('handleLogin')
+          })
         } else {
           return false
         }

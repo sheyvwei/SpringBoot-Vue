@@ -1,6 +1,6 @@
 //  登录时用户信息
 // import store from '@/store'
-
+import {login} from '@/api/login'
 const user = {
   state: {
     userName: '',
@@ -8,7 +8,7 @@ const user = {
     menus: [], // 侧边栏的内容
     permissions: [] // 每个功能权限
   },
-  mutation: {
+  mutations: {
     SET_USER: (state, userInfo) => {
       state.userName = userInfo.userName
       state.role = userInfo.roleName
@@ -25,7 +25,10 @@ const user = {
   actions: {
     Login ({commit, state}, loginForm) {
       return new Promise((resolve, reject) => {
-
+        login(loginForm).then(() => {
+          console.log(1)
+          // if()
+        })
       })
     }
   }

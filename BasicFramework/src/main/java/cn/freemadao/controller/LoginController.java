@@ -19,10 +19,10 @@ public class LoginController {
     @PostMapping("/auth")
     public Result login(@RequestParam(value = "username", required = false) String username,
                         @RequestParam(value = "password", required = false) String password) {
-
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
+
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             //开始验证，这一步会跳转到自定义Realm
             subject.login(token);
         }catch (Exception e) {

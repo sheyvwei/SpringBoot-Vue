@@ -4,6 +4,7 @@ package cn.freemadao.controller;
 import cn.freemadao.dto.Result;
 import cn.freemadao.enums.ResultEnums;
 import cn.freemadao.enums.StatusCode;
+import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,17 @@ public class LoginController {
         }catch (Exception e) {
 //            e.printStackTrace();
             return new Result(StatusCode.LOGINE_RROR, ResultEnums.LOGIN_ERROR.getInfo());
+        }
+        return new Result(StatusCode.SUCCESS, ResultEnums.SUCCESS);
+    }
+
+    @RequestMapping(value = "/logout")
+    public Result logout() {
+        try{
+            Subject currentUser = SecurityUtils.getSubject();
+            currentUser.logout();
+        } catch (Exception e){
+            return new Result(StatusCode.ERROR, ResultEnums.INNER_ERROR);
         }
         return new Result(StatusCode.SUCCESS, ResultEnums.SUCCESS);
     }

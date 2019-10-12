@@ -19,47 +19,38 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
-    /**
-     * 给用户授权
-     * @param principalCollection
-     * @return
-     */
+    //角色权限和对应权限添加
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        // 获取用户名
-        String userName = (String) principalCollection.getPrimaryPrincipal();
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        //设置角色
-//        authorizationInfo.setRoles(userService.getRoles(userName));
-        //设置权限
-//        authorizationInfo.setStringPermissions(userService.getUserPermission(userName));
-        JSONObject permission = userService.getPermission(userName);
-        logger.info("permission的值" + permission);
-        logger.info("本用户权限为:" + permission.get("permissionList"));
-        authorizationInfo.addStringPermissions((Collection<String>) permission.get("permissionList"));
-        return authorizationInfo;
+        //获取登录用户名
+        String name= (String) principalCollection.getPrimaryPrincipal();
+        //查询用户名称
+        User user = userService.findByUserName(name);
+        //添加角色和权限
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        JSONObject permission = userService.getPermission(name);
+        simpleAuthorizationInfo.addStringPermissions((Collection<String>) permission.get("permissionList"));
+        return simpleAuthorizationInfo;
     }
 
-    /**
-     * 验证当前登录的Subject
-     * LoginService登录方法中执行Subject.login()时 执行此方法
-     */
+    //用户认证
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        //根据token获取用户名, token从哪里来？？
-        String userName = (String)authenticationToken.getPrincipal();
-        User user = userService.findByUserName(userName);
-        if (user == null) {
-            //没找到帐号
-            throw new UnknownAccountException();
+        //加这一步的目的是在Post请求的时候会先进认证，然后在到请求
+        if (authenticationToken.getPrincipal() == null) {
+            return null;
         }
-        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getUserName(),
-                user.getPassword(),
-                //ByteSource.Util.bytes("salt"), salt=username+salt,采用明文访问时，不需要此句
-                getName()
-        );
-        return authenticationInfo;
+        //获取用户信息
+        String name = authenticationToken.getPrincipal().toString();
+        User user =  userService.findByUserName(name);
+        if (user == null) {
+            //这里返回后会报出对应异常
+            return null;
+        } else {
+            //这里验证authenticationToken和simpleAuthenticationInfo的信息
+//            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(), getName());
+            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(),getName());
+            return simpleAuthenticationInfo;
+        }
     }
 }

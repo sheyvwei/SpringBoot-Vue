@@ -10,6 +10,7 @@ import cn.freemadao.service.UserService;
 import cn.freemadao.utils.CheckValue;
 import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ public class UserController {
         return "BasicFramework";
     }
 
+    @RequiresPermissions("user:update")
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public Result findALl() {
         return new Result(StatusCode.SUCCESS,userService.findAll());
@@ -87,6 +89,7 @@ public class UserController {
     }
 
     /////权限
+    @RequiresPermissions("user:list")
     @PostMapping(value = "getPermission")
     public JSONObject getPermission(String userName) {
         return userService.getPermission(userName);

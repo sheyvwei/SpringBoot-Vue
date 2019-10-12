@@ -26,8 +26,8 @@ public class LoginController {
             //开始验证，这一步会跳转到自定义Realm
             subject.login(token);
         }catch (Exception e) {
-            e.printStackTrace();
-            return new Result(StatusCode.ERROR, ResultEnums.PARAMETER_ERROR);
+//            e.printStackTrace();
+            return new Result(StatusCode.LOGINE_RROR, ResultEnums.LOGIN_ERROR.getInfo());
         }
         return new Result(StatusCode.SUCCESS, ResultEnums.SUCCESS);
     }

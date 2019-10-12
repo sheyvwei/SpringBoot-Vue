@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public JSONObject getPermission(String userName) {
         JSONObject userPermission = getUserPermissionFromDB(userName);
+        System.out.print(userPermission.get("permissionList"));
         return userPermission;
     }
     private JSONObject getUserPermissionFromDB(String userName) {

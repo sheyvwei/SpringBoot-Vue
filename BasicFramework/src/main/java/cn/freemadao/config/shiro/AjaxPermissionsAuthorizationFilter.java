@@ -1,6 +1,7 @@
 package cn.freemadao.config.shiro;
 
 import cn.freemadao.enums.ResultEnums;
+import cn.freemadao.enums.StatusCode;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -15,8 +16,8 @@ public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code", ResultEnums.ERROR);
-        jsonObject.put("msg", ResultEnums.ERROR);
+        jsonObject.put("code", StatusCode.LOGINFAIL_ERROR);
+        jsonObject.put("data", ResultEnums.LOGINFAIL_ERROR.getInfo());
         PrintWriter out = null;
         HttpServletResponse res = (HttpServletResponse) response;
         try {

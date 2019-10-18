@@ -5,6 +5,18 @@
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSidebar"></hamburger>
 
     <breadcrumb class="breadcrumb-container"></breadcrumb>
+    <!-- 登出 -->
+    <el-dropdown trigger="click" style="float: right;cursor:pointer;" >
+      <span>个人信息</span>
+      <el-dropdown-menu>
+        <el-dropdown-item>
+          <span>个人主页</span>
+        </el-dropdown-item>
+        <el-dropdown-item>
+          <span @click="logout">退出</span>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
   </div>
 </template>
 <script>
@@ -25,6 +37,11 @@ export default {
   methods: {
     toggleSidebar () {
       this.$store.dispatch('app/toggleSidebar')
+    },
+    logout () {
+      this.$store.dispatch('logout').then(() => {
+        location.reload()
+      })
     }
   }
 }

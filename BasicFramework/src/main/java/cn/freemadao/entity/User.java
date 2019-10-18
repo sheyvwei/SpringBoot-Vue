@@ -15,8 +15,6 @@ public class User implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private String status;
-    private List<Role> roleList;
-    private List<Permission> permissionList;
 
     @Override
     public String toString() {
@@ -26,26 +24,9 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", createTime=" + createTime +
                 ", status='" + status + '\'' +
-                ", roleList=" + roleList +
-                ", permissionList=" + permissionList +
                 '}';
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
-    }
-
-    public List<Permission> getPermissionList() {
-        return permissionList;
-    }
-
-    public void setPermissionList(List<Permission> permissionList) {
-        this.permissionList = permissionList;
-    }
 
     public Integer getId() {
         return id;

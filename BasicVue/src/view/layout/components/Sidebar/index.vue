@@ -32,12 +32,14 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'sidebar',
+      'allRouters'
     ]),
     routes () {
       // 获取index的路由
       // console.log(this.$router.options.routes)
-      return this.$router.options.routes
+      // return this.allRouters
+      return this.$store.getters.allRouters
     },
     isCollapse () {
       // 获取store的sidebar状态

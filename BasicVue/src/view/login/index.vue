@@ -18,7 +18,7 @@
                   autoComplete="on"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+        <el-button  type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
           登录
         </el-button>
       </el-form-item>
@@ -45,13 +45,16 @@ export default {
     handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          // alert('调用store登录api')
-          this.$store.dispatch('Login', this.loginForm).then(() => {
-            this.$router.push('/dashboard')
+          this.loading = true
+          // this.$router.push({path: '/dashboard'})
+          this.$store.dispatch('login', this.loginForm).then(() => {
+            this.$router.push({path: '/dashboard'})
           }).catch(() => {
-            console.log('handleLogin')
+            this.loading = false
           })
+          this.loading = false
         } else {
+          console.log('error submit!!')
           return false
         }
       })

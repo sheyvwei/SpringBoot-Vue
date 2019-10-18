@@ -31,23 +31,23 @@ service.interceptors.response.use(
     /**
      * code为20000是抛错，可以结合自己业务修改
      * SUCCESS = 20000; //成功
-        ERROR = 20001; //失败
-        LOGINE_RROR = 20002; //用户名或密码错误
-        ACCESS_ERROR = 20003; //权限不足
-        REPEE_RROR = 20004; //重复操作
-        PARAMETER_ERROR = 20005; //入参错误
+       ERROR = 20001; //失败
+       LOGINE_RROR = 20002; //用户名或密码错误
+       ACCESS_ERROR = 20003; //权限不足
+       REPEE_RROR = 20004; //重复操作
+       PARAMETER_ERROR = 20005; //入参错误
      */
-    console.log(res.code)
-    console.log(res)
+    // console.log(res.code)
+    // console.log(res)
     if (res.code !== 20000) {
       Message({
         message: res.data,
         type: 'error',
         duration: 5 * 1000 // 显示时间
       })
-
-      // 其中50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      console.log(res)
+      // 其中50008:非法的token; 50012:其他客户端登录了;  20006:Token 过期了;
+      if (res.code === 50008 || res.code === 50012 || res.code === 20006) {
         MessageBox.confirm(
           '你已被登出，可以取消继续留在该页面，或者重新登录',
           '确定登出',
@@ -57,7 +57,8 @@ service.interceptors.response.use(
             type: 'warning'
           }
         ).then(() => {
-          store.dispatch('FedLogOut').then(() => {
+          console.log(11)
+          store.dispatch('fedLogout').then(() => {
             location.reload() // 为了重新实例化vue-router对象 避免bug
           })
         })

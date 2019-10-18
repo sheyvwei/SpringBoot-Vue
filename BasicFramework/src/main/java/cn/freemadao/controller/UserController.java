@@ -12,10 +12,7 @@ import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +21,12 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    /**
+     * 根据用户名查询用户信息
+     * @param userName
+     * @return
+     */
     @RequestMapping(value = "/findByUserName", method = RequestMethod.POST)
     public Result findByUserName(String userName) {
         if(CheckValue.checkString(userName)) {

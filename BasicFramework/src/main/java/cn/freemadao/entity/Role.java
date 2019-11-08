@@ -2,10 +2,12 @@ package cn.freemadao.entity;
 
 import com.alibaba.druid.sql.visitor.functions.Char;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Role implements Serializable {
     private Integer id;
     private String roleName;
@@ -13,13 +15,13 @@ public class Role implements Serializable {
     private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
-    private Char Status;
+    private String Status;
 
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", RoleName='" + roleName + '\'' +
+                ", roleName='" + roleName + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", Status=" + Status +
@@ -39,7 +41,7 @@ public class Role implements Serializable {
     }
 
     public void setRoleName(String roleName) {
-        roleName = roleName;
+        this.roleName = roleName;
     }
 
     public Date getCreateTime() {
@@ -58,11 +60,11 @@ public class Role implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Char getStatus() {
+    public String getStatus() {
         return Status;
     }
 
-    public void setStatus(Char status) {
-        Status = status;
+    public void setStatus(String status) {
+        this.Status = status;
     }
 }

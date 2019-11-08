@@ -38,7 +38,6 @@ service.interceptors.response.use(
        PARAMETER_ERROR = 20005; //入参错误
      */
     // console.log(res.code)
-    // console.log(res)
     if (res.code !== 20000) {
       Message({
         message: res.data,

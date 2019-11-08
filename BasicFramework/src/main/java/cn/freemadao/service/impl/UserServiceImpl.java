@@ -1,5 +1,6 @@
 package cn.freemadao.service.impl;
 
+import cn.freemadao.entity.Role;
 import cn.freemadao.entity.User;
 import cn.freemadao.enums.ResultEnums;
 import cn.freemadao.exception.ResultException;
@@ -9,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +37,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(User user){
         try{
+            if(user.getCreateTime() == null) {
+                user.setCreateTime(new Date());
+            }
+            if(user.getStatus() == null) {
+                user.setStatus("1");
+            }
             userMapper.create(user);
         }catch (Exception e) {
             e.printStackTrace(); //在命令行打印异常信息在程序中出错的位置及原因
@@ -45,6 +53,7 @@ public class UserServiceImpl implements UserService {
     public void delete(Integer... ids) {
         try{
             for(Integer id:ids){
+                System.out.println(id);
                 userMapper.delete(id);
             }
         }catch (Exception e) {
@@ -72,5 +81,15 @@ public class UserServiceImpl implements UserService {
         JSONObject userPermission = userMapper.getPermission(userName);
         // 还需判断是否为管理员，如果是，直接给permssionList和menuList赋值
         return userPermission;
+    }
+    ///用户lsit
+    public List<Map<String, Object>> getUserList() {
+        List<Map<String, Object>> list = userMapper.getUserList();
+        return list;
+    }
+    ///所有角色
+    public List<Role> getAllRoles() {
+        List<Role> roles = userMapper.getAllRoles();
+        return roles;
     }
 }

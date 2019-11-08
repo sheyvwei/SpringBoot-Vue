@@ -22,14 +22,8 @@
     <select id="findAllAmount"  resultType="Integer">
         select count(*) from sys_user
     </select>
-    <insert id="create" parameterType="User">
-        insert into sys_user(
-            userame,password, create_time,status
-        )
-        values(
-            #{userName}, #{password}, #{createTime}, #{status}
-        )
-    </insert>
+
+
     <delete id="delete"  parameterType="Integer">
         delete from sys_user where id = #{id}
     </delete>
@@ -66,7 +60,7 @@
         </collection>
     </resultMap>
     <select id="getPermission" resultMap="permission">
-        	   SELECT
+        SELECT
             u.id              userId,
 
             u.role_id         roleId,
@@ -79,4 +73,36 @@
                  LEFT JOIN sys_permission p ON rp.permission_id = p.id
         WHERE u.username = #{username}
     </select>
+
+    <select id="getUserList" resultType="HashMap">
+        select
+            U.id,
+            username,
+            R.role_name roleName,
+            DATE_FORMAT(R.create_time, '%Y-%c-%d %T') createTime,
+            DATE_FORMAT(R.update_time, '%Y-%c-%d %T') updateTime,
+            role_id,
+            r.role_name
+        from
+        sys_user  U left join sys_role R on  U.role_id = R.id
+    </select>
+    <resultMap id="RoleMap" type="cn.freemadao.entity.Role">
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="getAllRoles" resultMap="RoleMap">
+        select
+            id, role_name ,create_time, update_time
+        from sys_role where status = '1'
+    </select>
+<!--    新增用户-->
+    <insert id="create" parameterType="User">
+        insert into sys_user(
+            username,password, create_time,status, role_Id
+        )
+        values(
+            #{userName}, #{password}, #{createTime}, #{status}, #{roleId}
+        )
+    </insert>
 </mapper>

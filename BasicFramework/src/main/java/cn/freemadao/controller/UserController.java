@@ -69,6 +69,7 @@ public class UserController {
     public Result delete(Integer... ids) {
         try {
             if(CheckValue.checkIds(ids)) {
+                System.out.println(ids);
                 userService.delete(ids);
                 return new Result(StatusCode.SUCCESS, ResultEnums.SUCCESS);
             }
@@ -96,5 +97,17 @@ public class UserController {
     @PostMapping(value = "getPermission")
     public JSONObject getPermission(String userName) {
         return userService.getPermission(userName);
+    }
+
+    /// 用户list
+    @RequestMapping("/getList")
+    public Result getUserList() {
+        return new Result(StatusCode.SUCCESS, userService.getUserList());
+    }
+
+    ///角色有哪些
+    @RequestMapping("/getAllRoles")
+    public Result getAllRoles() {
+        return new Result(StatusCode.SUCCESS, userService.getAllRoles());
     }
 }

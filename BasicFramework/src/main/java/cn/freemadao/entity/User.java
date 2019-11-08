@@ -15,6 +15,11 @@ public class User implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private String status;
+    private String roleId;
+
+    public String getRoleId() {
+        return roleId;
+    }
 
     @Override
     public String toString() {
@@ -24,7 +29,12 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", createTime=" + createTime +
                 ", status='" + status + '\'' +
+                ", roleId='" + roleId + '\'' +
                 '}';
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
 

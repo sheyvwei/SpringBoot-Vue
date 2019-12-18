@@ -10,6 +10,7 @@ const Login = r => require.ensure([], () => r(require('@/view/login/')), 'login'
 const form = r => require.ensure([], () => r(require('@/view/form/index')), 'form')
 const Article = r => require.ensure([], () => r(require('@/view/article/index')), 'article')
 const User = r => require.ensure([], () => r(require('@/view/user/index')), 'user')
+const Role = r => require.ensure([], () => r(require('@/view/user/role')), 'role')
 /**
  * 常量路由
  */
@@ -87,7 +88,7 @@ export const accessRouter = [
       {
         path: 'role',
         name: '权限管理',
-        component: form,
+        component: Role,
         meta: {title: '权限管理', icon: 'password'},
         menu: 'role'
       }
